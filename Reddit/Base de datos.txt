@@ -1,0 +1,50 @@
+drop database if exists reditt;
+
+create database reditt;
+
+use reditt;
+
+create table usuario(
+                        id int primary key auto_increment,
+                        nombre varchar(20),
+                        usuario varchar(20) unique,
+                        password varchar(255),
+                        email varchar(30),
+                        salt varchar(255),
+                        intentos int,
+                        token varchar(255)
+);
+
+create table post (
+                      id int primary key auto_increment,
+                      titulo varchar(255),
+                      contenido text,
+                      descripcion varchar(50),
+                      autor varchar(50),
+                      fecha_publicacion timestamp default CURRENT_TIMESTAMP
+);
+
+create table comentario (
+                            id_comentario int auto_increment primary key ,
+                            id_post int,
+                            nombreComentador varchar(30),
+                            fecha_publicacion timestamp default CURRENT_TIMESTAMP,
+                            contenido text,
+                            foreign key (id_post) references post(id) on delete cascade
+);
+
+create table votosPositivos(
+                               id_votoP int auto_increment primary key,
+                               id_post int,
+                               usuario varchar(50),
+                               foreign key (id_post) references post(id) on delete cascade
+);
+create table votosNegativos(
+                               id_votoN int auto_increment primary key,
+                               id_post int,
+                               usuario varchar(50),
+                               foreign key (id_post) references post(id) on delete cascade
+);
+
+
+
